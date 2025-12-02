@@ -4,28 +4,37 @@ import "kaplay/global";
 kaplay({
     width:600,
     height: 600,
+    background: [230, 158, 161],
 });
 onLoad(() => {
     go("home");
 })
-// // loading all sprites
-// // loadSprite("sprite", "path/to/image")
+// loading all sprites
+// loadSprite("sprite", "path/to/image")
 
-// loadSprite ("bean", "sprites/bean.png")
+loadSprite ("bean", "sprites/bean.png")
 
-// //adding sprites
-// //const x = add([sprite("x"), pos(x, y)])
+//adding sprites
+//const x = add([sprite("x"), pos(x, y)])
 
-// const bean = add([sprite("bean"), pos(200,100)])
+const bean = add([sprite("bean"), pos(100,100)])
+
+//home 
 scene ("home", () => {
-    const menu = add([
-        rect (400, 100),
+    const playButton = add([
+        rect (300, 80),
         area(),
-        "button",
-        "1"
+        pos(150, 100),
+        "play",
     ]);
-    onClick("button" & "1")
-    const allButtons = get("button")
+    const tutButton = add([
+        rect (200,80),
+        area(),
+        pos(200,250),
+        "tut",
+    ])
+    onClick("play", ()=> go("game"));
+    onClick("tut", () => go("tutorial"))
 });
 
 
@@ -39,21 +48,23 @@ scene ("game", () => {
     ]);
 
     onKeyDown("d", () => {  
-        get("player").move(50, 0)
+       player.move(67, 0)
     });
 
     onKeyDown("s", () => {
-        get("player").move(0, 50)
+        player.move(0, 67)
     });
 
     onKeyDown("w", () => {
-        get("player").move(0, -50)
+        player.move(0, -67)
     });
 
     onKeyDown("a", () =>{
-        get("player").move(-50, 0)
+        player.move(-67, 0)
     });
 })
 
+scene ("tutorial", () =>{
 
+})
 
