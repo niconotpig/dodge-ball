@@ -48,23 +48,57 @@ scene ("game", () => {
     ]);
 
     onKeyDown("d", () => {  
-       player.move(67, 0)
+       player.move(167, 0)
     });
 
     onKeyDown("s", () => {
-        player.move(0, 67)
+        player.move(0, 167)
     });
 
     onKeyDown("w", () => {
-        player.move(0, -67)
+        player.move(0, -167)
     });
 
     onKeyDown("a", () =>{
-        player.move(-67, 0)
+        player.move(-167, 0)
     });
+
+    const enemy = add([
+        rect (50,50),
+        area(),
+        pos (500, 500),
+        "enemy"
+    ])
+    // const ball = add([
+    //     rect (10,10),
+    //     pos(enemy.pos),
+    //     area(),
+    //     move(player.pos.angle(enemy.pos), 800),
+    //     offscreen({destroy:true}),
+    //     "ball",
+    // ])
+    onMousePress (()=> {
+        const ball = add([
+        rect (10,10),
+        pos(enemy.pos),
+        area(),
+        move(player.pos.angle(enemy.pos), 800),
+        offscreen({destroy:true}),
+        "ball",
+        ])
+    })
+    onCollide ("player", "ball", () => {
+        player.destroy()
+        go("gameOver")
+    })
 })
 
 scene ("tutorial", () =>{
 
 })
 
+scene ("gameOver", () => {
+    const lost = add ([
+        text("guh goh you lost")
+    ])
+})
