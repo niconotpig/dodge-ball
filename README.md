@@ -1,27 +1,12 @@
-# Folder structure
+# come play dodge ball!!
 
-- `src` - source code for your kaplay project
-- `dist` - distribution folder, contains your index.html, built js bundle and static assets
+## Introduction
+Hi everyone!! This is my second? First?? game on Kaplay. I'm making this as a part of the roulette egg for milkyway hack club!! From roulette, I got the prompts 2d, top down view, and fantasy. Somehow, fantasy dodge ball was the first thing I came up with. Anywho, this should be a fun experience. I love Kaplay (so easy to use), I love fantasy, and I mildly enjoy dodge ball. 
 
 
-## Development
+## Game stuff?
 
-```sh
-$ npm run dev
-```
+## Other
 
-will start a dev server at http://localhost:8000
-
-## Distribution
-
-```sh
-$ npm run build
-```
-
-will build your js files into `dist/`
-
-```sh
-$ npm run zip
-```
-
-will build your game and package into a .zip file, you can upload to your server or itch.io / newground etc.
+#### hardships
+blalalala

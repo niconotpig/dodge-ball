@@ -32,7 +32,7 @@ scene ("home", () => {
         area(),
         pos(200,250),
         "tut",
-    ])
+    ]);
     onClick("play", ()=> go("game"));
     onClick("tut", () => go("tutorial"))
 });
@@ -68,37 +68,79 @@ scene ("game", () => {
         area(),
         pos (500, 500),
         "enemy"
-    ])
-    // const ball = add([
-    //     rect (10,10),
-    //     pos(enemy.pos),
-    //     area(),
-    //     move(player.pos.angle(enemy.pos), 800),
-    //     offscreen({destroy:true}),
-    //     "ball",
-    // ])
-    onMousePress (()=> {
-        const ball = add([
-        rect (10,10),
-        pos(enemy.pos),
-        area(),
-        move(player.pos.angle(enemy.pos), 800),
-        offscreen({destroy:true}),
-        "ball",
-        ])
-    })
+    ]);
+    onLoad(()=> {
+        wait(3, () => {
+            const ball = add([
+            rect (10,10),
+            pos(enemy.pos),
+            area(),
+            move(player.pos.angle(enemy.pos), 800),
+            offscreen({destroy:true}),
+            "ball",
+            ]);
+        })
+    });
     onCollide ("player", "ball", () => {
         player.destroy()
         go("gameOver")
-    })
-})
+    });
+});
 
 scene ("tutorial", () =>{
+    const playerTut = add ([
+        rect(100,100),
+        area(),
+        pos(300,100),
+        "playerTut",
+        "tut",
+    ]);
+    const playerTxt = add ([
+        text("this is the player"),
+        pos(200,70),
+        "tut",
+    ]);
+    const moveTxt = add ([
+        text("press wasd to move heh"), 
+        pos(100,400),
+        "tut",
+    ]);
+    onKeyDown("d", () => {  
+       playerTut.move(167, 0)
+    });
 
-})
+    onKeyDown("s", () => {
+        playerTut.move(0, 167)
+    });
+
+    onKeyDown("w", () => {
+        playerTut.move(0, -167)
+    });
+
+    onKeyDown("a", () =>{
+        playerTut.move(-167, 0)
+    }); 
+    wait(3, () => {
+        const continueTxt = add ([
+             text("click to continue"),
+             scale(0.5),
+             pos(400, 500),
+             area(),
+             "continueTxt",
+             "tut",
+        ]);
+    });
+    onClick("continueTxt", () => {
+        destroyAll("tut")
+        const newText = add([
+            text("This game is very simple so far so that is all you need!!")
+        ])
+    });
+});
 
 scene ("gameOver", () => {
     const lost = add ([
-        text("guh goh you lost")
-    ])
-})
+        text("guh goh you lost"),
+        pos(200,100)
+    ]);
+});
