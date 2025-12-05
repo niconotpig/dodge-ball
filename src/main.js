@@ -39,6 +39,9 @@ scene("home", () => {
 
 
 scene("level1", () => {
+    add([
+        text("Level 1")
+    ])
     const player = add([
         rect(100, 100),
         pos(100, 400),
@@ -62,24 +65,30 @@ scene("level1", () => {
     onKeyDown("a", () => {
         player.move(-167, 0)
     });
-
-    const playerSpeech = player.add([
-        text("you'll never defeat me!!", {
-            size: 15
-        }),
-        pos(2, 2),
-        color(BLACK),
+    const enemy = add([
+        rect(50, 50),
+        area(),
+        pos(500, 500),
+        "enemy"
     ]);
-    wait(2, () => {
-        playerSpeech.text = "uh oh don't shoot me pls"
-    });
-    wait(3, () => {
-        const enemy = add([
-            rect(50, 50),
-            area(),
-            pos(500, 500),
-            "enemy"
+
+    async function level1Func() {
+        debug.log("i ran")
+        await wait(0.5)
+        const playerSpeech = player.add([
+            text("you'll never defeat me!!", {
+                size: 15
+            }),
+            pos(2, 2),
+            color(BLACK),
+            "playerSpeech"
         ]);
+        await wait(2)
+        playerSpeech.text = "uh oh don't shoot me pls"
+        wait(1, () => {
+            playerSpeech.destroy()
+        })
+        await wait(2)
         loop(2, () => {
             const ball = add([
                 rect(10, 10),
@@ -89,20 +98,22 @@ scene("level1", () => {
                 offscreen({ destroy: true }),
                 "ball",
             ]);
-        }, 5, true);
-        onCollide("player", "ball", () => {
-            player.destroy()
-            go("gameOver")
-        });
+        }, 5);
+        await wait(11);
+        go("level2")
+    }
+    level1Func();
+    onCollide("player", "ball", () => {
+        player.destroy()
+        go("gameOver")
     });
-})
-
-
-
-scene("level2", () => {
 
 });
-
+scene("level2", () => {
+    add([
+        text("Level 2")
+    ])
+})
 scene("tutorial", () => {
     const playerTut = add([
         rect(100, 100),
