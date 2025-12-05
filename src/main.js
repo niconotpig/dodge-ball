@@ -1,8 +1,8 @@
 import kaplay from "kaplay";
-import "kaplay/global"; 
+import "kaplay/global";
 
 kaplay({
-    width:600,
+    width: 600,
     height: 600,
     background: [230, 158, 161],
 });
@@ -12,43 +12,43 @@ onLoad(() => {
 // loading all sprites
 // loadSprite("sprite", "path/to/image")
 
-loadSprite ("bean", "sprites/bean.png")
+loadSprite("bean", "sprites/bean.png")
 
 //adding sprites
 //const x = add([sprite("x"), pos(x, y)])
 
-const bean = add([sprite("bean"), pos(100,100)])
+const bean = add([sprite("bean"), pos(100, 100)])
 
 //home 
-scene ("home", () => {
+scene("home", () => {
     const playButton = add([
-        rect (300, 80),
+        rect(300, 80),
         area(),
         pos(150, 100),
         "play",
     ]);
     const tutButton = add([
-        rect (200,80),
+        rect(200, 80),
         area(),
-        pos(200,250),
+        pos(200, 250),
         "tut",
     ]);
-    onClick("play", ()=> go("game"));
+    onClick("play", () => go("level1"));
     onClick("tut", () => go("tutorial"))
 });
 
 
-scene ("game", () => {
+scene("level1", () => {
     const player = add([
-        rect(100,100),
-        pos (100, 400),
+        rect(100, 100),
+        pos(100, 400),
         area(),
-        anchor ("center"),
+        anchor("center"),
         "player"
     ]);
 
-    onKeyDown("d", () => {  
-       player.move(167, 0)
+    onKeyDown("d", () => {
+        player.move(167, 0)
     });
 
     onKeyDown("s", () => {
@@ -59,54 +59,70 @@ scene ("game", () => {
         player.move(0, -167)
     });
 
-    onKeyDown("a", () =>{
+    onKeyDown("a", () => {
         player.move(-167, 0)
     });
 
-    const enemy = add([
-        rect (50,50),
-        area(),
-        pos (500, 500),
-        "enemy"
+    const playerSpeech = player.add([
+        text("you'll never defeat me!!", {
+            size: 15
+        }),
+        pos(2, 2),
+        color(BLACK),
     ]);
-    onLoad(()=> {
-        wait(3, () => {
-            const ball = add([
-            rect (10,10),
-            pos(enemy.pos),
+    wait(2, () => {
+        playerSpeech.text = "uh oh don't shoot me pls"
+    });
+    wait(3, () => {
+        const enemy = add([
+            rect(50, 50),
             area(),
-            move(player.pos.angle(enemy.pos), 800),
-            offscreen({destroy:true}),
-            "ball",
+            pos(500, 500),
+            "enemy"
+        ]);
+        loop(2, () => {
+            const ball = add([
+                rect(10, 10),
+                pos(enemy.pos),
+                area(),
+                move(player.pos.angle(enemy.pos), 300),
+                offscreen({ destroy: true }),
+                "ball",
             ]);
-        })
+        }, 5, true);
+        onCollide("player", "ball", () => {
+            player.destroy()
+            go("gameOver")
+        });
     });
-    onCollide ("player", "ball", () => {
-        player.destroy()
-        go("gameOver")
-    });
+})
+
+
+
+scene("level2", () => {
+
 });
 
-scene ("tutorial", () =>{
-    const playerTut = add ([
-        rect(100,100),
+scene("tutorial", () => {
+    const playerTut = add([
+        rect(100, 100),
         area(),
-        pos(300,100),
+        pos(300, 100),
         "playerTut",
         "tut",
     ]);
-    const playerTxt = add ([
+    const playerTxt = add([
         text("this is the player"),
-        pos(200,70),
+        pos(200, 70),
         "tut",
     ]);
-    const moveTxt = add ([
-        text("press wasd to move heh"), 
-        pos(100,400),
+    const moveTxt = add([
+        text("press wasd to move heh"),
+        pos(100, 400),
         "tut",
     ]);
-    onKeyDown("d", () => {  
-       playerTut.move(167, 0)
+    onKeyDown("d", () => {
+        playerTut.move(167, 0)
     });
 
     onKeyDown("s", () => {
@@ -117,30 +133,34 @@ scene ("tutorial", () =>{
         playerTut.move(0, -167)
     });
 
-    onKeyDown("a", () =>{
+    onKeyDown("a", () => {
         playerTut.move(-167, 0)
-    }); 
+    });
     wait(3, () => {
-        const continueTxt = add ([
-             text("click to continue"),
-             scale(0.5),
-             pos(400, 500),
-             area(),
-             "continueTxt",
-             "tut",
+        const continueTxt = add([
+            text("click to continue"),
+            scale(0.5),
+            pos(400, 500),
+            area(),
+            "continueTxt",
+            "tut",
         ]);
     });
     onClick("continueTxt", () => {
         destroyAll("tut")
         const newText = add([
-            text("This game is very simple so far so that is all you need!!")
-        ])
+            text("This game is very simple so far, so that is all you need!!", {
+                size: 30,
+                width: 500,
+            }),
+            pos(50, 100),
+        ]);
     });
 });
 
-scene ("gameOver", () => {
-    const lost = add ([
+scene("gameOver", () => {
+    const lost = add([
         text("guh goh you lost"),
-        pos(200,100)
+        pos(200, 100)
     ]);
 });
